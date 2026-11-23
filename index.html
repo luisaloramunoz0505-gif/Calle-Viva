@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CALLE VIVA | Pedregal</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f2e9;
+      color: #20352b;
+    }
+    header {
+      background: #183b2d;
+      color: white;
+      padding: 27px 7%;
+    }
+    .brand { font-size: 30px; font-weight: 900; letter-spacing: 3px; }
+    header p { margin: 8px 0 0; color: #d5e3d8; }
+    .intro { padding: 28px 7% 18px; }
+    .intro h1 { margin: 0 0 8px; font-size: 27px; }
+    .intro p { color: #657469; line-height: 1.5; }
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 20px;
+      padding: 0 7% 35px;
+    }
+    #map {
+      height: 570px;
+      border-radius: 18px;
+      border: 1px solid #d8ded5;
+      z-index: 1;
+    }
+    .side {
+      background: white;
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 5px 22px #20352b12;
+    }
+    .side h2 { margin-top: 0; }
+    .place {
+      padding: 15px 0;
+      border-bottom: 1px solid #e8ece6;
+      cursor: pointer;
+    }
+    .place strong { display: block; margin-bottom: 5px; }
+    .place span { font-size: 13px; color: #718075; }
+    .place:hover strong { color: #bd673f; }
+    .hint {
+      background: #edf3ed;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 20px;
+    }
+    footer {
+      background: #183b2d;
+      color: #d5e3d8;
+      text-align: center;
+      padding: 22px;
+      font-size: 13px;
+    }
+    .popup { min-width: 190px; }
+    .popup .photo {
+      background: #e9eee5;
+      border-radius: 10px;
+      padding: 25px 10px;
+      text-align: center;
+      font-size: 38px;
+      margin-bottom: 10px;
+    }
+    .popup h3 { margin: 5px 0; color: #183b2d; }
+    .popup p { margin: 5px 0; line-height: 1.4; }
+    @media(max-width: 800px) {
+      .layout { grid-template-columns: 1fr; padding: 0 5% 25px; }
+      #map { height: 430px; }
+      header { padding: 23px 5%; }
+      .intro { padding: 24px 5% 15px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">CALLE VIVA</div>
+    <p>Pedregal tiene historias. Ven a descubrirlas.</p>
+  </header>
+
+  <section class="intro">
+    <h1>Explora nuestro territorio 📍</h1>
+    <p>Un mapa para descubrir los lugares, la cultura y las historias de Pedregal.</p>
+  </section>
+
+  <main class="layout">
+    <div id="map"></div>
+
+    <aside class="side">
+      <h2>Descubre Pedregal</h2>
+      <p>Selecciona un lugar para conocerlo.</p>
+
+      <div class="place" onclick="showPlace(0)">
+        <strong>🏛️ Casa de la Cultura</strong>
+        <span>Arte, cultura y comunidad</span>
+      </div>
+
+      <div class="place" onclick="showPlace(1)">
+        <strong>🍹 Lico House</strong>
+        <span>Un punto de encuentro del barrio</span>
+      </div>
+
+      <div class="place" onclick="showPlace(2)">
+        <strong>🌳 Parque de Pedregal</strong>
+        <span>Un espacio para compartir</span>
+      </div>
+
+      <div class="hint">
+        <strong>CALLE VIVA</strong><br>
+        Este mapa está creciendo. Pronto encontrarás más lugares, fotografías y relatos de nuestra comunidad.
+      </div>
+    </aside>
+  </main>
+
+  <footer>CALLE VIVA · Un recorrido por la identidad de Pedregal</footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([6.300, -75.575], 15);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    const places = [
+      {
+        name: 'Casa de la Cultura Pedregal',
+        icon: '🏛️',
+        description: 'Un espacio para el arte, la cultura y el encuentro comunitario.',
+        coords: [6.3005, -75.5755]
+      },
+      {
+        name: 'Lico House',
+        icon: '🍹',
+        description: 'Un lugar de encuentro en Pedregal. Dirección: Cl. 105A #74-04.',
+        coords: [6.3010, -75.5745]
+      },
+      {
+        name: 'Parque de Pedregal',
+        icon: '🌳',
+        description: 'Un espacio para disfrutar, jugar y compartir en comunidad.',
+        coords: [6.2995, -75.5765]
+      }
+    ];
+
+    const markers = [];
+
+    places.forEach((place, index) => {
+      const marker = L.marker(place.coords).addTo(map);
+      marker.bindPopup(`
+        <div class="popup">
+          <div class="photo">${place.icon}</div>
+          <h3>${place.name}</h3>
+          <p>${place.description}</p>
+          <small>CALLE VIVA · Pedregal</small>
+        </div>
+      `);
+      markers.push(marker);
+    });
+
+    function showPlace(index) {
+      map.setView(places[index].coords, 17);
+      markers[index].openPopup();
+    }
+  </script>
+</body>
+</html>
