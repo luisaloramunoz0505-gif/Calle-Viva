@@ -4,126 +4,310 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171717">
   <title>CALLE VIVA | Pedregal</title>
+
+  <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <!-- Tipografías -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Luckiest+Guy&display=swap" rel="stylesheet">
+
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: #171717;
+    }
+
     body {
       margin: 0;
+      min-height: 100vh;
       font-family: 'Inter', sans-serif;
       background: #171717;
       color: #FFFFFF;
     }
+
+    /* ENCABEZADO */
+
     header {
       background: #171717;
-      color: white;
+      color: #FFFFFF;
       padding: 27px 7%;
     }
-.brand {
-    font-family: 'Luckiest Guy', cursive;
-    font-size: 34px;
-    font-weight: 400;
-    letter-spacing: 3px;
-    line-height: 1.5;
-    color: #F4E900;
-}
-header p {
-    margin: 12px 0 0;
-    color: #F28DB8;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    line-height: 1.7;
-    font-weight: 400;
-}
 
-.intro {
-    padding: 28px 7% 18px;
-    background: #171717;
-}
-.intro h1 {
-    font-family: 'Luckiest Guy', cursive;
-    margin: 0 0 8px;
-    font-size: 27px;
-    color: #F4E900;
-}    .intro p { color: #FFFFFF; line-height: 1.5; }
-  .layout {
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 20px;
-    padding: 0 7% 35px;
-    background: #171717;
-}
+    .brand {
+      font-family: 'Luckiest Guy', cursive;
+      font-size: 34px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      line-height: 1.5;
+      color: #F4E900;
+    }
+
+    header p {
+      margin: 12px 0 0;
+      color: #F28DB8;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 400;
+    }
+
+    /* INTRODUCCIÓN */
+
+    .intro {
+      padding: 28px 7% 18px;
+      background: #171717;
+      color: #FFFFFF;
+    }
+
+    .intro h1 {
+      font-family: 'Luckiest Guy', cursive;
+      font-weight: 400;
+      font-size: 29px;
+      line-height: 1.5;
+      letter-spacing: 0.5px;
+      margin: 0 0 12px;
+      color: #F4E900;
+    }
+
+    .intro p {
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.8;
+      margin: 0;
+    }
+
+    /* DISTRIBUCIÓN PRINCIPAL */
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 20px;
+      padding: 10px 7% 35px;
+      background: #171717;
+      align-items: start;
+    }
+
+    /* MAPA */
+
     #map {
+      width: 100%;
       height: 570px;
       border-radius: 18px;
-      border: 1px solid #d8ded5;
+      border: 1px solid #444444;
       z-index: 1;
     }
+
+    /* PANEL LATERAL */
+
     .side {
       background: #242424;
+      color: #FFFFFF;
       border-radius: 18px;
       padding: 22px;
-      box-shadow: 0 5px 22px #20352b12;
+      box-shadow: 0 5px 22px #00000040;
     }
-    .side h2 { margin-top: 0; }
+
+    .side h2 {
+      margin: 0 0 12px;
+      font-family: 'Luckiest Guy', cursive;
+      font-weight: 400;
+      font-size: 23px;
+      color: #F4E900;
+      line-height: 1.5;
+    }
+
+    .side > p {
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 15px;
+    }
+
+    /* LUGARES */
+
     .place {
-      padding: 15px 0;
-      border-bottom: 1px solid #e8ece6;
+      padding: 17px 0;
+      border-bottom: 1px solid #555555;
       cursor: pointer;
+      transition: color 0.2s ease;
     }
-    .place strong { display: block; margin-bottom: 5px; }
-    .place span { font-size: 13px; color: #718075; }
-    .place:hover strong { color: #FF7900; }
+
+    .place strong {
+      display: block;
+      margin-bottom: 7px;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .place span {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #F28DB8;
+    }
+
+    .place:hover strong {
+      color: #FF7900;
+    }
+
+    /* RECUADRO INFORMATIVO */
+
     .hint {
       background: #F28DB8;
+      color: #171717;
       border-radius: 12px;
-      padding: 14px;
+      padding: 16px;
+      font-family: 'Inter', sans-serif;
       font-size: 13px;
-      line-height: 1.5;
-      margin-top: 20px;
+      line-height: 1.8;
+      margin-top: 22px;
     }
+
+    .hint strong {
+      font-weight: 700;
+    }
+
+    /* PIE DE PÁGINA */
+
     footer {
+      width: 100%;
       background: #171717;
-      color: #d5e3d8;
+      color: #F28DB8;
       text-align: center;
-      padding: 22px;
-      font-size: 13px;
+      padding: 24px 7%;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      line-height: 1.8;
     }
-    .popup { min-width: 190px; }
+
+    /* VENTANAS DE FOTOGRAFÍAS */
+
+    .popup {
+      min-width: 190px;
+      font-family: 'Inter', sans-serif;
+      color: #FFFFFF;
+    }
+
     .popup .photo {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 10px;
-    display: block;
-    margin-bottom: 10px;
-}
-    .popup h3 { margin: 5px 0; color: #F4E900; }
-    .popup p { margin: 5px 0; line-height: 1.4; }
-    @media(max-width: 800px) {
-      .layout { grid-template-columns: 1fr; padding: 0 5% 25px; }
-      #map { height: 430px; }
-      header { padding: 23px 5%; }
-      .intro { padding: 24px 5% 15px; }
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .popup h3 {
+      margin: 5px 0 8px;
+      color: #F4E900;
+      font-family: 'Luckiest Guy', cursive;
+      font-size: 19px;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    .popup p {
+      margin: 5px 0 10px;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .popup small {
+      color: #F28DB8;
+      font-size: 11px;
+    }
+
+    /* ESTILO DE VENTANAS LEAFLET */
+
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background: #242424;
+      color: #FFFFFF;
+    }
+
+    .leaflet-popup-content {
+      margin: 14px;
+    }
+
+    .leaflet-popup-close-button {
+      color: #FFFFFF !important;
+    }
+
+    /* VERSIÓN PARA CELULARES */
+
+    @media (max-width: 800px) {
+      header {
+        padding: 23px 5%;
+      }
+
+      .brand {
+        font-size: 30px;
+      }
+
+      .intro {
+        padding: 25px 5% 18px;
+      }
+
+      .intro h1 {
+        font-size: 25px;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+        padding: 10px 5% 25px;
+        gap: 18px;
+      }
+
+      #map {
+        height: 430px;
+      }
+
+      .side {
+        width: 100%;
+      }
+
+      footer {
+        padding: 22px 5%;
+      }
     }
   </style>
 </head>
+
 <body>
+
+  <!-- ENCABEZADO -->
+
   <header>
     <div class="brand">CALLE VIVA</div>
     <p>Pedregal tiene historias. Ven a descubrirlas.</p>
   </header>
+
+  <!-- INTRODUCCIÓN -->
 
   <section class="intro">
     <h1>Explora nuestro territorio 📍</h1>
     <p>Un mapa para descubrir los lugares, la cultura y las historias de Pedregal.</p>
   </section>
 
+  <!-- MAPA Y LUGARES -->
+
   <main class="layout">
+
     <div id="map"></div>
 
     <aside class="side">
+
       <h2>Descubre Pedregal</h2>
       <p>Selecciona un lugar para conocerlo.</p>
 
@@ -146,12 +330,20 @@ header p {
         <strong>CALLE VIVA</strong><br>
         Este mapa está creciendo. Pronto encontrarás más lugares, fotografías y relatos de nuestra comunidad.
       </div>
+
     </aside>
   </main>
 
-  <footer>CALLE VIVA · Un recorrido por la identidad de Pedregal</footer>
+  <!-- PIE DE PÁGINA -->
+
+  <footer>
+    CALLE VIVA · Un recorrido por la identidad de Pedregal
+  </footer>
+
+  <!-- LEAFLET -->
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
   <script>
     const map = L.map('map').setView([6.300, -75.575], 15);
 
@@ -162,37 +354,42 @@ header p {
     const places = [
       {
         name: 'Casa de la Cultura Pedregal',
-        icon: '🏛️', image: 'casa-cultura-pedregal.jpg',
+        icon: '🏛️',
+        image: 'casa-cultura-pedregal.jpg',
         description: 'Un espacio para el arte, la cultura y el encuentro comunitario.',
         coords: [6.3005, -75.5755]
       },
       {
         name: 'Lico House',
-        icon: '🍹', image: 'lico-house.jpg',
+        icon: '🍹',
+        image: 'lico-house.jpg',
         description: 'Un lugar de encuentro en Pedregal. Dirección: Cl. 105A #74-04.',
         coords: [6.3010, -75.5745]
       },
       {
         name: 'Parque de Pedregal',
-        icon: '🌳', image: 'parque-pedregal.jpg',
+        icon: '🌳',
+        image: 'parque-pedregal.jpg',
         description: 'Un espacio para disfrutar, jugar y compartir en comunidad.',
         coords: [6.2995, -75.5765]
-        
       }
     ];
 
     const markers = [];
 
     places.forEach((place, index) => {
+
       const marker = L.marker(place.coords).addTo(map);
+
       marker.bindPopup(`
         <div class="popup">
-<img class="photo" src="${place.image}" alt="${place.name}">          
-<h3>${place.name}</h3>
+          <img class="photo" src="${place.image}" alt="${place.name}">
+          <h3>${place.name}</h3>
           <p>${place.description}</p>
           <small>CALLE VIVA · Pedregal</small>
         </div>
       `);
+
       markers.push(marker);
     });
 
@@ -201,5 +398,6 @@ header p {
       markers[index].openPopup();
     }
   </script>
+
 </body>
 </html>
